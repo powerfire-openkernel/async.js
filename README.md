@@ -23,22 +23,27 @@ of these examples.
 The `node.next(eventType)` method would pause a function until the specified event is
 fired on the node that `next` was called on and would return the captured event object.
 
-    var listenForNextEventDispatch = function ([node, eventType], callback) {
-        var listener = function (event) {
-            node.removeEventListener(eventType, listener, false);
-            callback(event);
-        };
-        node.addEventListener(eventType, listener, false);
-    };
-    Node.prototype.next = function (eventType) {
-        return [listenForNextEventDispatch, [this, eventType]];
-    };
+```js
+var listenForNextEventDispatch = function ([node, eventType], callback) {
+  var listener = function (event) {
+    node.removeEventListener(eventType, listener, false);
+    callback(event);
+  };
+  node.addEventListener(eventType, listener, false);
+};
 
-You could now then the following in an asynced function to handle the next click event
+Node.prototype.next = function (eventType) {
+  return [listenForNextEventDispatch, [this, eventType]];
+};
+```
+
+You could now then the following in an **asynced function** to handle the next click event
 on the document.
 
-    var clickEvent = yield document.next("click");
-    // handle click event here
+```js
+var clickEvent = yield document.next("click");
+// handle click event here
+```
 
 
 ### Asking the user for their impressions of async.js
